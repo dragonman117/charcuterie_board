@@ -1,0 +1,39 @@
+---
+import Layout from '../components/Layout.astro';
+import CategoryNav from '../components/CategoryNav.astro';
+import CategorySection from '../components/CategorySection.astro';
+import QuickStats from '../components/QuickStats.astro';
+import { parseBoardFile } from '../lib/parseBoard';
+import { enrichShows } from '../lib/enrich/index';
+import type { EnrichedShow } from '../lib/enrich/types';
+import fs from 'node:fs';
+
+const board = parseBoardFile('boards/Summer 2026.md', fs);
+
+const enrichedByCategory: { name: string; slug: string; shows: EnrichedShow[] }[] = [];
+const allEnriched: EnrichedShow[] = [];
+
+for (const cat of board.categories) {
+  const enriched = await enrichShows(cat.shows);
+  enrichedByCategory.push({ name: cat.name, slug: cat.slug, shows: enriched });
+  allEnriched.push(...enriched);
+}
+
+const navCategories = enrichedByCategory.map((c) => ({ name: c.name, slug: c.slug, count: c.shows.length }));
+---
+
+<Layout title={board.seasonTitle} metadata={board.metadata}>
+  <CategoryNav categories={navCategories} />
+  <div class="container">
+    <main class="main">
+      {enrichedByCategory.map((cat, i) => (
+        <CategorySection name={cat.name} slug={cat.slug} index={i} shows={cat.shows} />
+      ))}
+      <QuickStats shows={allEnriched} prose={board.quickStatsRaw} />
+    </main>
+  </div>
+</Layout>
+
+<style>
+.main { padding: 1.5rem 0; }
+</style>

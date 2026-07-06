@@ -1,0 +1,83 @@
+---
+import type { EnrichedShow } from '../lib/enrich/types';
+
+interface Props {
+  shows: EnrichedShow[];
+  prose?: string;
+}
+
+const { shows, prose } = Astro.props;
+
+const total = shows.length;
+const perService: Record<string, number> = {};
+for (const s of shows) {
+  let svc = 'Other';
+  if (s.resolvedUrl.includes('crunchyroll.com')) svc = 'Crunchyroll';
+  else if (s.resolvedUrl.includes('hidive.com')) svc = 'HIDIVE';
+  else if (s.resolvedUrl.includes('netflix.com')) svc = 'Netflix';
+  perService[svc] = (perService[svc] ?? 0) + 1;
+}
+const continuing = shows.filter(s => s.markers.includes('continuing')).length;
+const movies = shows.filter(s => s.markers.includes('movie')).length;
+const newShows = total - continuing;
+const resolved = shows.filter(s => s.source !== 'unresolved').length;
+---
+
+<footer class="stats">
+  <h2 class="stats-title">Quick Stats</h2>
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-num">{total}</span><span class="stat-label">Total shows</span></div>
+    <div class="stat"><span class="stat-num">{newShows}</span><span class="stat-label">New / sequels</span></div>
+    <div class="stat"><span class="stat-num">{continuing}</span><span class="stat-label">Continuing</span></div>
+    <div class="stat"><span class="stat-num">{movies}</span><span class="stat-label">Movies</span></div>
+    <div class="stat"><span class="stat-num">{resolved}</span><span class="stat-label">Links resolved</span></div>
+  </div>
+  <div class="stats-services">
+    {Object.entries(perService).map(([svc, n]) => (
+      <span class="service-pill"><strong>{n}</strong> {svc}</span>
+    ))}
+  </div>
+  {prose && (
+    <details class="prose">
+      <summary>Original board stats</summary>
+      <pre>{prose}</pre>
+    </details>
+  )}
+</footer>
+
+<style>
+.stats {
+  margin-top: 2.5rem; padding: 1.5rem 1rem; border-top: 1px solid var(--border);
+  background: var(--surface-alt); border-radius: var(--radius) var(--radius) 0 0;
+}
+.stats-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem; color: var(--text); }
+.stats-grid {
+  display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 1rem;
+}
+@media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(5, 1fr); } }
+.stat { display: flex; flex-direction: column; gap: 0.15rem; }
+.stat-num {
+  font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800;
+  color: var(--accent);
+}
+.stat-label {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.stats-services { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.service-pill {
+  font-family: var(--font-mono); font-size: 0.75rem; padding: 0.3rem 0.7rem;
+  background: var(--surface); border-radius: 999px; border: 1px solid var(--border);
+  color: var(--muted);
+}
+.service-pill strong { color: var(--text); }
+.prose { margin-top: 0.5rem; }
+.prose summary { cursor: pointer; font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); }
+.prose pre {
+  margin: 0.5rem 0 0; padding: 0.75rem; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: var(--font-mono); font-size: 0.7rem; overflow-x: auto; white-space: pre-wrap;
+  color: var(--muted);
+}
+</style>

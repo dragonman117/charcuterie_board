@@ -1,0 +1,158 @@
+---
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  metadata?: string;
+}
+const { title, metadata } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={title} />
+    <title>{title}</title>
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light') {
+            document.documentElement.dataset.theme = 'light';
+          } else if (stored === 'dark') {
+            delete document.documentElement.dataset.theme;
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.dataset.theme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="header-row">
+          <div class="header-title">
+            <h1>{title}</h1>
+            <div class="mesh-band" aria-hidden="true"></div>
+            {metadata && <p class="metadata">{metadata}</p>}
+          </div>
+          <div class="header-controls">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="true" aria-label="Switch to light theme">
+              <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <div class="container">
+        <p>Built with Astro · <a href="https://github.com/" target="_blank" rel="noopener">Source</a></p>
+      </div>
+    </footer>
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        function sync() {
+          var isDark = !document.documentElement.dataset.theme || document.documentElement.dataset.theme === 'dark';
+          btn.setAttribute('aria-pressed', String(isDark));
+          btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+          btn.classList.toggle('is-light', !isDark);
+        }
+        sync();
+        btn.addEventListener('click', function () {
+          var isDark = !document.documentElement.dataset.theme || document.documentElement.dataset.theme === 'dark';
+          if (isDark) {
+            document.documentElement.dataset.theme = 'light';
+            try { localStorage.setItem('theme', 'light'); } catch (e) {}
+          } else {
+            delete document.documentElement.dataset.theme;
+            try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+          }
+          sync();
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+.site-header {
+  padding: 1.5rem 0 1.25rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.header-row {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+}
+.header-title { min-width: 0; }
+.site-header h1 {
+  margin: 0; font-size: 1.5rem; font-weight: 800; line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.mesh-band {
+  height: 3px; width: 64px; border-radius: 999px;
+  background: var(--mesh);
+  margin: 0.5rem 0 0;
+}
+.metadata {
+  margin: 0.5rem 0 0; font-size: 0.75rem; color: var(--muted);
+  font-family: var(--font-mono); font-style: normal;
+}
+.header-controls { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; padding: 0;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.theme-toggle:hover { border-color: var(--accent); }
+.theme-toggle:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text); }
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle.is-light .icon-sun { display: none; }
+.theme-toggle.is-light .icon-moon { display: block; }
+
+.site-footer {
+  padding: 1rem 0; border-top: 1px solid var(--border);
+  font-size: 0.8rem; color: var(--muted);
+  font-family: var(--font-mono);
+}
+.site-footer a { color: var(--accent-link); text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+
+@media (min-width: 640px) {
+  .site-header h1 { font-size: 2rem; }
+}
+</style>

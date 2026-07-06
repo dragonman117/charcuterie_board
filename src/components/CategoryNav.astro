@@ -1,0 +1,124 @@
+---
+interface Props {
+  categories: { name: string; slug: string; count: number }[];
+}
+const { categories } = Astro.props;
+---
+
+<div class="catnav-wrap">
+  <nav class="catnav-pills" aria-label="Categories">
+    <div class="catnav-inner">
+      {categories.map((c) => (
+        <a href={`#${c.slug}`} class="catnav-item">
+          <span class="catnav-name">{c.name.split('(')[0].trim()}</span>
+          <span class="catnav-count">{c.count}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <div class="catnav-mobile">
+    <button class="catnav-hamburger" id="catnav-hamburger" type="button"
+      aria-expanded="false" aria-controls="catnav-panel" aria-label="Toggle category menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <span class="hamburger-label">Categories</span>
+    </button>
+    <div class="catnav-panel" id="catnav-panel">
+      {categories.map((c) => (
+        <a href={`#${c.slug}`} class="catnav-panel-item" data-close>
+          <span class="catnav-name">{c.name.split('(')[0].trim()}</span>
+          <span class="catnav-count">{c.count}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('catnav-hamburger');
+    var panel = document.getElementById('catnav-panel');
+    if (!btn || !panel) return;
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('open', open);
+    }
+    btn.addEventListener('click', function () {
+      setOpen(!(btn.getAttribute('aria-expanded') === 'true'));
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('[data-close]')) setOpen(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        setOpen(false); btn.focus();
+      }
+    });
+  })();
+</script>
+
+<style>
+.catnav-wrap {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.catnav-inner {
+  display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.5rem 1rem;
+  scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+}
+.catnav-item {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.4rem 0.75rem; border-radius: 999px;
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600;
+  color: var(--muted); text-decoration: none; white-space: nowrap; min-height: 36px;
+  transition: background 0.15s, color 0.15s;
+}
+.catnav-item:hover { background: var(--surface-alt); color: var(--text); }
+.catnav-count {
+  font-size: 0.7rem; background: var(--surface-alt); padding: 0 0.4rem;
+  border-radius: 999px; color: var(--muted);
+}
+
+.catnav-mobile { display: none; }
+.catnav-hamburger {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; min-height: 44px; padding: 0.6rem 1rem; margin: 0;
+  background: transparent; color: var(--text);
+  border: none; border-top: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+  cursor: pointer;
+}
+.catnav-hamburger:hover { background: var(--surface-alt); }
+.catnav-hamburger svg { flex-shrink: 0; }
+.catnav-hamburger .hamburger-label { flex: 1; text-align: left; }
+.catnav-panel {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.25s ease;
+  display: flex; flex-direction: column;
+}
+.catnav-panel.open { max-height: 70vh; overflow-y: auto; }
+.catnav-panel-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  padding: 0.75rem 1rem; border-top: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: 0.85rem; color: var(--text);
+  text-decoration: none; min-height: 44px;
+}
+.catnav-panel-item:hover { background: var(--surface-alt); }
+.catnav-panel-item .catnav-count {
+  font-size: 0.7rem; background: var(--surface-alt); padding: 0 0.4rem;
+  border-radius: 999px; color: var(--muted);
+}
+
+@media (max-width: 767px) {
+  .catnav-pills { display: none; }
+  .catnav-mobile { display: block; }
+}
+@media (min-width: 768px) {
+  .catnav-mobile { display: none; }
+}
+</style>

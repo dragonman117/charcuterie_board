@@ -1,0 +1,35 @@
+---
+import ShowCard from './ShowCard.astro';
+import type { EnrichedShow } from '../lib/enrich/types';
+
+interface Props {
+  name: string;
+  slug: string;
+  index: number;
+  shows: EnrichedShow[];
+}
+
+const { name, slug, index, shows } = Astro.props;
+---
+
+<section class="category" id={slug}>
+  <h2 class="category-title">{name}</h2>
+  <div class="grid">
+    {shows.map((show) => <ShowCard show={show} categorySlug={slug} categoryIndex={index} />)}
+  </div>
+</section>
+
+<style>
+.category { scroll-margin-top: 4.5rem; margin-bottom: 2.5rem; }
+.category-title {
+  font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+  color: var(--text); letter-spacing: -0.01em;
+}
+.grid {
+  display: grid; gap: 1rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

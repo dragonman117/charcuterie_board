@@ -1,0 +1,25 @@
+:root {
+  --bg: #000000;
+  --surface: #1a1a1a;
+  --surface-alt: #141414;
+  --text: #ededed;
+  --muted: #a1a1a1;
+  --border: #333333;
+  --accent: #ededed;
+  --accent-link: #a1a1a1;
+  --radius: 0.625rem;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --mesh: linear-gradient(135deg, #0070f3, #7928ca, #ff0080, #f5a623);
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-alt: #fafafa;
+  --text: #171717;
+  --muted: #666666;
+  --border: #ebebeb;
+  --accent: #171717;
+  --accent-link: #4d4d4d;
+}
