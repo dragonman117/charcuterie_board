@@ -27,7 +27,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - run: npm ci
@@ -37,16 +37,20 @@ jobs:
         run: |
           INPUT="${{ inputs.base_path }}"
           if [ -z "$INPUT" ]; then
+            OWNER="${GITHUB_REPOSITORY%%/*}"
             REPO="${GITHUB_REPOSITORY##*/}"
             echo "base=/$REPO/" >> "$GITHUB_OUTPUT"
+            echo "site=https://$OWNER.github.io" >> "$GITHUB_OUTPUT"
           else
             echo "base=$INPUT" >> "$GITHUB_OUTPUT"
+            echo "site=https://${GITHUB_REPOSITORY%%/*}.github.io" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Build
         run: npm run build
         env:
           BASE_PATH: ${{ steps.base.outputs.base }}
+          SITE: ${{ steps.base.outputs.site }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
