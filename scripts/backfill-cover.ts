@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { parseBoardFile } from '../src/lib/parseBoard';
 import { getSeasons } from '../src/lib/seasons';
 import { loadCache, saveCache, setEntry } from '../src/lib/enrich/cache';
@@ -48,6 +49,21 @@ async function main() {
   });
   saveCache(seasonSlug, cache);
   console.log(`coverPath recorded: ${coverPath}`);
+
+  try {
+    const tracked = spawnSync('git', ['ls-files', '--error-unmatch', `public/covers/${seasonSlug}/${showSlug}.webp`, '--'], {
+      stdio: 'ignore',
+    }).status === 0;
+    if (!tracked) {
+      console.warn(
+        `WARNING: public/covers/${seasonSlug}/${showSlug}.webp is not tracked by git. ` +
+          `Commit it (git add public/covers/${seasonSlug}/${showSlug}.webp) before pushing — ` +
+          `CI builds run without the local cache and only see committed covers.`,
+      );
+    }
+  } catch {
+    // git unavailable; skip the check
+  }
 
   console.log(`\nShows still missing covers in ${seasonSlug}:`);
   const enriched = allShows.filter((s) => !loadCache(seasonSlug)[s.slug]?.coverPath);

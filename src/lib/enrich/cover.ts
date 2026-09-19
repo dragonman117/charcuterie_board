@@ -11,6 +11,12 @@ async function ensureCoversDir(seasonSlug: string): Promise<string> {
   return dir;
 }
 
+export function committedCoverPath(seasonSlug: string, showSlug: string): string | null {
+  const filePath = path.join(COVERS_DIR, seasonSlug, `${showSlug}.webp`);
+  if (!fs.existsSync(filePath)) return null;
+  return `${PUBLIC_COVER_PREFIX}${seasonSlug}/${showSlug}.webp`;
+}
+
 export async function downloadAndStoreCover(
   coverUrl: string,
   seasonSlug: string,

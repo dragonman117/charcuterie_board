@@ -47,6 +47,12 @@ npx tsx scripts/backfill-cover.ts fall-2026 tank-chair "https://.../key-visual.w
 
 The script downloads the image via the same pipeline (converted to WebP), writes it to `public/covers/<season-slug>/<show-slug>.webp`, records `coverPath` in the season's cache entry, and prints the shows still missing covers. Rebuild with `npm run build` afterward (never `enrich:fresh` — it wipes the backfilled `coverPath`).
 
+**Commit the cover file before pushing.** CI deploys build on a clean checkout with no `.cache/` — only cover files committed to the repo are visible there. The backfill script warns when the stored cover is untracked; `git add public/covers/<season-slug>/<show-slug>.webp` and commit it with your change.
+
+### Committed covers & CI
+
+Committed cover files are the source of truth for cover presence: any show with a file at `public/covers/<season-slug>/<show-slug>.webp` renders that cover in every build, including cache-less CI rebuilds that fail to re-resolve it from the APIs (rate limits, unreleased titles). The enricher falls back to the committed file whenever neither the cache nor the APIs produce a cover; placeholders render only for shows with no committed cover at all.
+
 ## Deploy to GitHub Pages
 
 1. Push the repo to GitHub.

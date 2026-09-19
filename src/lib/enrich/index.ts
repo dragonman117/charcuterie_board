@@ -4,7 +4,7 @@ import { isPlaceholderUrl } from '../parseBoard';
 import { resolveByAnilist, resolveByAnilistId } from './anilist';
 import { resolveByJikan } from './jikan';
 import { loadCache, saveCache, getEntry, setEntry, getOverride, isFresh } from './cache';
-import { downloadAndStoreCover } from './cover';
+import { downloadAndStoreCover, committedCoverPath } from './cover';
 
 export interface SeasonContext {
   slug: string;
@@ -114,7 +114,9 @@ export async function enrichShows(shows: ParsedShow[], season: SeasonContext): P
             resolvedUrl = r.resolvedUrl;
             source = r.source;
           }
-          coverPath = r.coverUrl ? await downloadAndStoreCover(r.coverUrl, season.slug, show.slug) : (cached?.coverPath ?? null);
+          coverPath = r.coverUrl
+            ? await downloadAndStoreCover(r.coverUrl, season.slug, show.slug)
+            : (cached?.coverPath ?? null);
           anilistId = r.anilistId;
         } catch {
           if (validBoardUrl) {
@@ -149,7 +151,7 @@ export async function enrichShows(shows: ParsedShow[], season: SeasonContext): P
         markers: show.markers,
         unresolved: source === 'unresolved',
         resolvedUrl,
-        coverPath,
+        coverPath: coverPath ?? committedCoverPath(season.slug, show.slug),
         anilistId,
         source,
         resolvedAt: new Date().toISOString(),
