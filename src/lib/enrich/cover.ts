@@ -5,24 +5,27 @@ import sharp from 'sharp';
 const COVERS_DIR = path.resolve(process.cwd(), 'public', 'covers');
 const PUBLIC_COVER_PREFIX = '/covers/';
 
-async function ensureCoversDir(): Promise<void> {
-  if (!fs.existsSync(COVERS_DIR)) fs.mkdirSync(COVERS_DIR, { recursive: true });
+async function ensureCoversDir(seasonSlug: string): Promise<string> {
+  const dir = path.join(COVERS_DIR, seasonSlug);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  return dir;
 }
 
 export async function downloadAndStoreCover(
   coverUrl: string,
-  slug: string,
+  seasonSlug: string,
+  showSlug: string,
 ): Promise<string | null> {
   try {
-    await ensureCoversDir();
+    const dir = await ensureCoversDir(seasonSlug);
     const res = await fetch(coverUrl, { redirect: 'follow' });
     if (!res.ok) throw new Error(`cover HTTP ${res.status}`);
     const buf = Buffer.from(await res.arrayBuffer());
-    const outPath = path.join(COVERS_DIR, `${slug}.webp`);
+    const outPath = path.join(dir, `${showSlug}.webp`);
     await sharp(buf).webp({ quality: 80 }).toFile(outPath);
-    return `${PUBLIC_COVER_PREFIX}${slug}.webp`;
+    return `${PUBLIC_COVER_PREFIX}${seasonSlug}/${showSlug}.webp`;
   } catch (err) {
-    console.warn(`[enrich.cover] failed for ${slug}: ${(err as Error).message}`);
+    console.warn(`[enrich.cover] failed for ${seasonSlug}/${showSlug}: ${(err as Error).message}`);
     return null;
   }
 }

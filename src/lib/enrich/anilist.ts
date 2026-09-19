@@ -16,9 +16,9 @@ async function throttle(): Promise<void> {
 }
 
 const QUERY = `
-query ($search: String, $seasonYear: Int) {
+query ($search: String, $seasonYear: Int, $season: MediaSeason) {
   Page(perPage: 5) {
-    media(search: $search, type: ANIME, seasonYear: $seasonYear, format_in: [TV, TV_SHORT, MOVIE, OVA, ONA, SPECIAL]) {
+    media(search: $search, type: ANIME, season: $season, seasonYear: $seasonYear, format_in: [TV, TV_SHORT, MOVIE, OVA, ONA, SPECIAL]) {
       id
       title { romaji english native }
       coverImage { large extraLarge }
@@ -96,14 +96,15 @@ function pickStreamingLink(media: any): string | null {
 export async function resolveByAnilist(
   title: string,
   seasonYear?: number,
+  seasonTerm?: string,
 ): Promise<ResolverResult | null> {
   if (!circuitAvailable()) return null;
   try {
-    let json = await fetchWithRetry(QUERY, { search: title, seasonYear: seasonYear ?? null });
+    let json = await fetchWithRetry(QUERY, { search: title, seasonYear: seasonYear ?? null, season: seasonTerm ?? null });
     let mediaList: any[] = json?.data?.Page?.media ?? [];
     if (mediaList.length === 0 && seasonYear) {
       if (!circuitAvailable()) return null;
-      json = await fetchWithRetry(QUERY, { search: title, seasonYear: null });
+      json = await fetchWithRetry(QUERY, { search: title, seasonYear: null, season: null });
       mediaList = json?.data?.Page?.media ?? [];
     }
     if (mediaList.length === 0) return null;

@@ -1,39 +1,72 @@
 ---
 import Layout from '../components/Layout.astro';
-import CategoryNav from '../components/CategoryNav.astro';
-import CategorySection from '../components/CategorySection.astro';
-import QuickStats from '../components/QuickStats.astro';
+import { getSeasons, type Season } from '../lib/seasons';
 import { parseBoardFile } from '../lib/parseBoard';
-import { enrichShows } from '../lib/enrich/index';
-import type { EnrichedShow } from '../lib/enrich/types';
 import fs from 'node:fs';
 
-const board = parseBoardFile('boards/Summer 2026.md', fs);
+const seasons: Season[] = getSeasons();
+const current = seasons[0];
 
-const enrichedByCategory: { name: string; slug: string; shows: EnrichedShow[] }[] = [];
-const allEnriched: EnrichedShow[] = [];
-
-for (const cat of board.categories) {
-  const enriched = await enrichShows(cat.shows);
-  enrichedByCategory.push({ name: cat.name, slug: cat.slug, shows: enriched });
-  allEnriched.push(...enriched);
-}
-
-const navCategories = enrichedByCategory.map((c) => ({ name: c.name, slug: c.slug, count: c.shows.length }));
+const entries = seasons.map((season) => {
+  const board = parseBoardFile(season.boardPath, fs);
+  const showCount = board.categories.reduce((n, c) => n + c.shows.length, 0);
+  return { season, board, showCount };
+});
 ---
 
-<Layout title={board.seasonTitle} metadata={board.metadata}>
-  <CategoryNav categories={navCategories} />
+<Layout title="Anime Charcuterie Board" metadata="One board per season — newest first." seasons={seasons} currentSeasonSlug={null}>
   <div class="container">
     <main class="main">
-      {enrichedByCategory.map((cat, i) => (
-        <CategorySection name={cat.name} slug={cat.slug} index={i} shows={cat.shows} />
-      ))}
-      <QuickStats shows={allEnriched} prose={board.quickStatsRaw} />
+      <p class="intro">Boards are hand-curated Markdown; every season gets its own page.</p>
+      <ol class="season-list">
+        {entries.map(({ season, board, showCount }) => (
+          <li class="season-item">
+            <a class="season-link" href={`${import.meta.env.BASE_URL}${season.slug}/`}>
+              <span class="season-name">{board.seasonTitle}</span>
+              {season.slug === current.slug && <span class="badge-current">Current</span>}
+              <span class="season-meta">{board.metadata}</span>
+              <span class="season-count">{showCount} shows</span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </main>
   </div>
 </Layout>
 
 <style>
-.main { padding: 1.5rem 0; }
+  .main { padding: 2rem 0 3rem; }
+  .intro {
+    margin: 0 0 1.5rem; color: var(--muted);
+    font-family: var(--font-mono); font-size: 0.8rem;
+  }
+  .season-list {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .season-item { border: 1px solid var(--border); border-radius: var(--radius); }
+  .season-link {
+    display: flex; flex-direction: column; gap: 0.4rem;
+    padding: 1.25rem 1.25rem 1rem;
+    text-decoration: none;
+  }
+  .season-link:hover { border-color: var(--accent); }
+  .season-item:hover { border-color: var(--accent); }
+  .season-name {
+    font-size: 1.15rem; font-weight: 800; color: var(--text);
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  }
+  .badge-current {
+    font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.15rem 0.45rem; border-radius: 999px;
+    background: var(--accent); color: var(--bg);
+  }
+  .season-meta {
+    font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono);
+  }
+  .season-count {
+    font-size: 0.8rem; color: var(--accent-link); font-family: var(--font-mono);
+  }
 </style>

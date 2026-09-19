@@ -6,13 +6,17 @@ import { resolveByJikan } from './jikan';
 import { loadCache, saveCache, getEntry, setEntry, getOverride, isFresh } from './cache';
 import { downloadAndStoreCover } from './cover';
 
-const SEASON_YEAR = 2026;
+export interface SeasonContext {
+  slug: string;
+  seasonTerm: string;
+  seasonYear: number;
+}
 
 function hasValidBoardUrl(show: ParsedShow): boolean {
   return Boolean(show.rawUrl) && !show.unresolved && !isPlaceholderUrl(show.rawUrl);
 }
 
-function searchFallbackUrl(title: string, rawUrl: string): string {
+function searchFallbackUrl(title: string, rawUrl: string, season: SeasonContext): string {
   const enc = encodeURIComponent(title);
   if (rawUrl.includes('crunchyroll.com')) {
     return `https://www.crunchyroll.com/search?q=${enc}`;
@@ -26,14 +30,17 @@ function searchFallbackUrl(title: string, rawUrl: string): string {
   if (rawUrl.includes('amazon.com') || rawUrl.includes('primevideo.com')) {
     return `https://www.amazon.com/s?k=${enc}`;
   }
-  return `https://www.google.com/search?q=${enc}+anime+summer+2026`;
+  const seasonQ = `${season.seasonTerm.toLowerCase()}+${season.seasonYear}`;
+  return `https://www.google.com/search?q=${enc}+anime+${seasonQ}`;
 }
 
 function detectService(url: string): string | null {
   if (url.includes('crunchyroll.com')) return 'Crunchyroll';
   if (url.includes('hidive.com')) return 'HIDIVE';
   if (url.includes('netflix.com')) return 'Netflix';
-  if (url.includes('amazon.com') || url.includes('primevideo.com')) return 'Amazon Prime';
+  if (url.includes('disneyplus.com') || url.includes('disneyplus')) return 'Disney+';
+  if (url.includes('primevideo.com')) return 'Prime Video';
+  if (url.includes('amazon.com')) return 'Amazon Prime';
   if (url.includes('aniplus')) return 'ANIPLUS';
   if (url.includes('myanimelist.net')) return 'MyAnimeList';
   return null;
@@ -41,13 +48,14 @@ function detectService(url: string): string | null {
 
 async function resolveShow(
   show: ParsedShow,
+  season: SeasonContext,
   overrideId?: number,
 ): Promise<ResolverResult> {
   if (overrideId) {
     const r = await resolveByAnilistId(overrideId);
     if (r) return r;
   }
-  const al = await resolveByAnilist(stripSeasonSuffix(show.title), SEASON_YEAR);
+  const al = await resolveByAnilist(stripSeasonSuffix(show.title), season.seasonYear, season.seasonTerm);
   if (al) return al;
   const jk = await resolveByJikan(stripSeasonSuffix(show.title));
   if (jk) return jk;
@@ -62,8 +70,8 @@ function stripSeasonSuffix(title: string): string {
     .trim();
 }
 
-export async function enrichShows(shows: ParsedShow[]): Promise<EnrichedShow[]> {
-  const cache = isFresh() ? {} : loadCache();
+export async function enrichShows(shows: ParsedShow[], season: SeasonContext): Promise<EnrichedShow[]> {
+  const cache = isFresh() ? {} : loadCache(season.slug);
   const results: EnrichedShow[] = new Array(shows.length);
   let completed = 0;
   const CONCURRENCY = 3;
@@ -83,7 +91,7 @@ export async function enrichShows(shows: ParsedShow[]): Promise<EnrichedShow[]> 
 
       const validBoardUrl = hasValidBoardUrl(show);
 
-      if (cached && !isFresh() && cached.source !== 'unresolved') {
+      if (cached && !isFresh()) {
         if (validBoardUrl) {
           resolvedUrl = show.rawUrl;
           source = 'jikan';
@@ -95,25 +103,25 @@ export async function enrichShows(shows: ParsedShow[]): Promise<EnrichedShow[]> 
         anilistId = cached.anilistId;
       } else {
         try {
-          const r = await resolveShow(show, overrideId);
+          const r = await resolveShow(show, season, overrideId);
           if (validBoardUrl) {
             resolvedUrl = show.rawUrl;
             source = 'jikan';
           } else if (r.source === 'unresolved' || !r.resolvedUrl) {
-            resolvedUrl = searchFallbackUrl(show.title, show.rawUrl);
+            resolvedUrl = searchFallbackUrl(show.title, show.rawUrl, season);
             source = 'unresolved';
           } else {
             resolvedUrl = r.resolvedUrl;
             source = r.source;
           }
-          coverPath = r.coverUrl ? await downloadAndStoreCover(r.coverUrl, show.slug) : (cached?.coverPath ?? null);
+          coverPath = r.coverUrl ? await downloadAndStoreCover(r.coverUrl, season.slug, show.slug) : (cached?.coverPath ?? null);
           anilistId = r.anilistId;
         } catch {
           if (validBoardUrl) {
             resolvedUrl = show.rawUrl;
             source = 'jikan';
           } else {
-            resolvedUrl = searchFallbackUrl(show.title, show.rawUrl);
+            resolvedUrl = searchFallbackUrl(show.title, show.rawUrl, season);
             source = 'unresolved';
           }
           coverPath = cached?.coverPath ?? null;
@@ -130,7 +138,7 @@ export async function enrichShows(shows: ParsedShow[]): Promise<EnrichedShow[]> 
         if (overrideId) entry.overrideAnilistId = overrideId;
         setEntry(cache, show.slug, entry);
         completed++;
-        if (completed % 5 === 0) saveCache(cache);
+        if (completed % 5 === 0) saveCache(season.slug, cache);
       }
 
       results[i] = {
@@ -153,7 +161,7 @@ export async function enrichShows(shows: ParsedShow[]): Promise<EnrichedShow[]> 
   for (let w = 0; w < CONCURRENCY; w++) workers.push(worker());
   await Promise.all(workers);
 
-  saveCache(cache);
+  saveCache(season.slug, cache);
   return results;
 }
 

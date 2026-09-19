@@ -72,7 +72,7 @@ function run() {
   assert(wf.categories[0].shows[0].unresolved === false, 'show 0 not unresolved');
   assert(wf.categories[0].shows[1].markers.includes('continuing'), 'show 1 continuing marker');
   assert(wf.categories[0].shows[1].unresolved === true, 'show 1 placeholder unresolved');
-  assert(wf.quickStatsRaw && wf.quickStatsRaw.includes('Total shows'), 'quick stats raw');
+  assert(Boolean(wf.quickStatsRaw && wf.quickStatsRaw.includes('Total shows')), 'quick stats raw');
 
   const mu = parseBoard(MISSING_URL);
   assert(mu.categories[0].shows[0].rawUrl === '', 'missing url empty');

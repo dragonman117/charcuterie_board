@@ -19,7 +19,9 @@ const serviceLabel = (() => {
   if (show.resolvedUrl.includes('crunchyroll.com')) return 'Crunchyroll';
   if (show.resolvedUrl.includes('hidive.com')) return 'HIDIVE';
   if (show.resolvedUrl.includes('netflix.com')) return 'Netflix';
-  if (show.resolvedUrl.includes('amazon.com') || show.resolvedUrl.includes('primevideo.com')) return 'Amazon Prime';
+  if (show.resolvedUrl.includes('disneyplus.com')) return 'Disney+';
+  if (show.resolvedUrl.includes('primevideo.com')) return 'Prime Video';
+  if (show.resolvedUrl.includes('amazon.com')) return 'Amazon Prime';
   if (show.resolvedUrl.includes('aniplus')) return 'ANIPLUS';
   if (show.resolvedUrl.includes('myanimelist.net')) return 'MyAnimeList';
   if (show.source === 'unresolved') return 'Link TBA';

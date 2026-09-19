@@ -1,12 +1,19 @@
 ---
 import '../styles/tokens.css';
+import type { Season } from '../lib/seasons';
 
 interface Props {
   title: string;
   metadata?: string;
+  seasons?: Season[];
+  currentSeasonSlug?: string | null;
 }
-const { title, metadata } = Astro.props;
+const { title, metadata, seasons = [], currentSeasonSlug = null } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const seasonNav = [
+  ...seasons.map((s) => ({ slug: s.slug, label: s.slug, href: `${base}${s.slug}/`, isIndex: false })),
+  ...(seasons.length > 0 ? [{ slug: null, label: 'index', href: base, isIndex: true }] : []),
+];
 ---
 
 <!doctype html>
@@ -42,6 +49,31 @@ const base = import.meta.env.BASE_URL;
             {metadata && <p class="metadata">{metadata}</p>}
           </div>
           <div class="header-controls">
+            {seasons.length > 0 && (
+              <nav class="season-switcher" aria-label="Seasons">
+                <select class="season-select" aria-label="Choose season">
+                  {seasonNav.map((item) => (
+                    <option
+                      value={item.href}
+                      selected={item.isIndex ? currentSeasonSlug === null : item.slug === currentSeasonSlug}
+                    >
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+                <div class="season-pills">
+                  {seasonNav.map((item) => (
+                    <a
+                      class="season-pill"
+                      href={item.href}
+                      aria-current={(item.isIndex ? currentSeasonSlug === null : item.slug === currentSeasonSlug) ? 'page' : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </nav>
+            )}
             <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="true" aria-label="Switch to light theme">
               <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -92,6 +124,15 @@ const base = import.meta.env.BASE_URL;
         });
       })();
     </script>
+    <script is:inline>
+      (function () {
+        var select = document.querySelector('.season-select');
+        if (!select) return;
+        select.addEventListener('change', function () {
+          if (select.value) window.location.assign(select.value);
+        });
+      })();
+    </script>
   </body>
 </html>
 
@@ -130,6 +171,32 @@ img { max-width: 100%; }
   font-family: var(--font-mono); font-style: normal;
 }
 .header-controls { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.season-switcher { display: contents; }
+.season-select {
+  display: none;
+  font-family: var(--font-mono); font-size: 0.75rem;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.4rem 0.5rem; max-width: 130px;
+}
+.season-pills { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.season-pill {
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;
+  color: var(--muted); text-decoration: none; white-space: nowrap;
+  padding: 0.25rem 0.6rem; border-radius: 999px;
+  border: 1px solid var(--border);
+}
+.season-pill:hover { color: var(--text); border-color: var(--accent); }
+.season-pill[aria-current='page'] {
+  color: var(--bg); background: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (max-width: 767.98px) {
+  .season-select { display: inline-block; }
+  .season-pills { display: none; }
+}
 
 .theme-toggle {
   display: inline-flex; align-items: center; justify-content: center;
