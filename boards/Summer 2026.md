@@ -1,6 +1,6 @@
 # Summer 2026 Anime Guide — The Only List That Matters™
 
-*Last updated: June 18, 2026. Sources: Crunchyroll, HIDIVE, Netflix, MyAnimeList, LiveChart, Anime News Network, GameRant, Anime Corner.*
+*Last updated: October 7, 2026. Sources: Crunchyroll, HIDIVE, Netflix, MyAnimeList, LiveChart, Anime News Network, GameRant, Anime Corner.*
 
 ---
 
@@ -63,7 +63,7 @@
     - A support-class guy who's secretly OP. It's like being the bass player who actually writes all the songs.
 
 - **Though I Am an Inept Villainess**
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/though-i-am-an-inept-villainess *(Crunchyroll, premieres July 12 — page not yet live)*
+    - https://www.crunchyroll.com/series/GT00371881/though-i-am-an-inept-villainess *(also streaming on Hulu)*
     - A villainess so bad at being evil she accidentally becomes the heroine. Failing upward: the anime.
 
 - **Hanaori-san Still Wants to Fight in the Next Life**
@@ -71,7 +71,7 @@
     - A delinquent girl reincarnates and immediately looks for someone to throw hands with. Some habits transcend death.
 
 - **Tomb Raider King**
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/tomb-raider-king *(Crunchyroll, premieres July 8 — page not yet live)*
+    - https://www.crunchyroll.com/series/GT00378123/tomb-raider-king
     - Mysterious tombs appear worldwide and one guy exploits them better than anyone. Indiana Jones meets gacha mechanics.
 
 - **Ascendance of a Bookworm: Adopted Daughter of an Archduke** *(continuing from Spring)*
@@ -95,15 +95,15 @@
     - A witch in 13th-century Mongolia. Finally, an isekai where the protagonist didn't come from Japan.
 
 - **The Insipid Prince's Furtive Grab for The Throne**
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/the-insipid-princes-furtive-grab-for-the-throne *(Crunchyroll, premieres July 6 — page not yet live)*
+    - https://www.crunchyroll.com/series/GT00378119/the-insipid-princes-furtive-grab-for-the-throne
     - A prince everyone thinks is useless secretly schemes for power. The ultimate "quiet kid in the back of the class" energy.
 
 - **The Fake Alchemist**
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/the-fake-alchemist *(streaming TBD — anime just announced June 2026)*
+    - (Stream TBD — anime just announced June 2026, no premiere or platform yet)
     - An alchemist who can't actually do alchemy fakes it till he makes it. Every STEM major's worst nightmare.
 
 - **Red River**
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/red-river *(Crunchyroll, premieres July 7 — page not yet live)*
+    - https://www.crunchyroll.com/series/GT00378099/red-river *(premiered July 7; continuing into Fall)*
     - A modern girl gets pulled into ancient Anatolia. Classic shoujo isekai before isekai was even a word.
 
 - **Daemons of the Shadow Realm**
@@ -186,8 +186,8 @@
     - https://www.amazon.com/THE-GHOST-IN-SHELL/dp/B0H43Y5131 *(Amazon Prime Video exclusive — not on Crunchyroll)*
     - Science SARU reboots the cyberpunk classic. Motoko's back and she's still questioning what it means to be human in a world of AIs. Very topical. July 7.
 
-- **Sekiro: No Defeat** *(movie)*
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/sekiro-no-defeat *(Crunchyroll after 3-week theatrical run — page not yet live)*
+- **Sekiro: No Defeat** *(movie + TV series)*
+    - (Theatrical Sept 4 in Japan; 8-episode Crunchyroll TV series premieres January 2027)
     - FromSoftware's "Sekiro: Shadows Die Twice" gets an anime movie. You thought the game was hard? Now you can't even pause it.
 
 - **LIAR GAME** *(continuing from Spring)*
@@ -247,7 +247,7 @@
     - A new BanG Dream series featuring Mugendai Mewtype. More girls, more bands, more songs you'll hum for weeks.
 
 - **Dodgeball Girl Danko (Honoo no Toukyuujo: Dodge Danko)**
-    - https://www.crunchyroll.com/series/GDKHZEJPQ/dodgeball-girl-danko *(ANIPLUS Asia exclusive — not on Crunchyroll; premieres July 6)*
+    - https://www.aniplus-asia.com/ *(ANIPLUS Asia exclusive — Southeast Asia; premieres July 6)*
     - A fiery dodgeball anime where the sport looks like actual warfare. If you can dodge a wrench, you can dodge existential dread. Also technically sports, but dodgeball as a serious sport is inherently hilarious.
 
 ---
@@ -259,11 +259,11 @@
     - Kyoto Animation's steampunk original about bringing electricity to an alternate-history Kyoto. KyoAni doing sci-fi — inject it directly into my veins.
 
 - **Thunder 3**
-    - https://www.netflix.com/title/THUNDER3
+    - https://www.netflix.com/title/82736186 *(Netflix — premiered July 8)*
     - Three middle schoolers get pulled into a parallel world. Netflix's other summer anime that isn't Sparks of Tomorrow.
 
 - **The Ribbon Hero** *(Netflix movie)*
-    - https://www.netflix.com/title/THE_RIBBON_HERO
+    - https://www.netflix.com/title/81493703 *(Netflix — premiered Aug 8)*
     - A modern reimagining of Tezuka's Princess Knight. Netflix and Twin Engine reviving a classic — actually tasteful for once.
 
 ---
@@ -287,7 +287,7 @@
     - Senku continues rebuilding civilization from scratch. The only anime where the power of friendship is replaced by the power of chemistry.
 
 - **Pokémon Horizons** *(continuing)*
-    - https://www.netflix.com/title/POKEMON_HORIZONS
+    - https://www.netflix.com/title/81696980
     - Liko and Roy continue their journey. Ash is gone but the electric mouse remains eternal.
 
 ---
@@ -304,4 +304,4 @@
 
 ---
 
-*Note: URLs marked with `GDKHZEJPQ` are placeholder series IDs — these shows either haven't premiered yet on Crunchyroll (page will go live at premiere) or stream on a different platform (Amazon Prime Video, Netflix, ANIPLUS). Annotations indicate the actual streaming platform where known. Verified URLs were sourced from the Crunchyroll discover/simulcast pages and Google searches on July 5, 2026. Sources: Crunchyroll Summer 2026 Lineup (June 17, 2026), HIDIVE Summer 2026 Simulcasts (June 16, 2026), MyAnimeList, LiveChart.me, Anime News Network, GameRant, Anime Corner, CBR, Gizmodo, Wikipedia.*
+*Note: All streaming links verified as of October 7, 2026 — placeholder IDs have been replaced with live series pages (Crunchyroll, Netflix, ANIPLUS Asia). Shows annotated "TBD" have no confirmed legal stream or premiere date yet. Sources: Crunchyroll Summer 2026 Lineup (June 17, 2026), HIDIVE Summer 2026 Simulcasts (June 16, 2026), MyAnimeList, LiveChart.me, Anime News Network, GameRant, Anime Corner, CBR, Gizmodo, Wikipedia.*
