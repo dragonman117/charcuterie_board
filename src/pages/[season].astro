@@ -28,7 +28,12 @@ for (const cat of board.categories) {
   allEnriched.push(...enriched);
 }
 
-const navCategories = enrichedByCategory.map((c) => ({ name: c.name, slug: c.slug, count: c.shows.length }));
+const navCategories = enrichedByCategory.map((c) => ({
+  name: c.name,
+  slug: c.slug,
+  count: c.shows.length,
+  newCount: c.shows.filter((s) => !s.markers.includes('continuing') && !s.markers.includes('sequel')).length,
+}));
 const seasons = getSeasons();
 ---
 

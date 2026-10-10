@@ -6,35 +6,35 @@
 
 ## ISEKAI (Truck-kun's Busiest Season Yet)
 
-- **Mushoku Tensei: Jobless Reincarnation Season 3**
+- **Mushoku Tensei: Jobless Reincarnation Season 3** *(sequel)*
     - https://www.crunchyroll.com/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation
     - Rudeus returns to prove that even in your third life, you can still be a massive pervert with a heart of gold.
 
-- **Re:ZERO -Starting Life in Another World- Season 4 (Recapture Arc)**
+- **Re:ZERO -Starting Life in Another World- Season 4 (Recapture Arc)** *(sequel)*
     - https://www.crunchyroll.com/series/GRGG9798R/rezero--starting-life-in-another-world-
     - Subaru dies again. And again. And again. At this point death is just his commute.
 
-- **That Time I Got Reincarnated as a Slime Season 4**
+- **That Time I Got Reincarnated as a Slime Season 4** *(sequel)*
     - https://www.crunchyroll.com/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime
     - Rimuru's nation-building simulator continues, now with 40% more meetings about trade policy.
 
-- **Saga of Tanya the Evil Season 2**
+- **Saga of Tanya the Evil Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/GR9P57W96/saga-of-tanya-the-evil
     - A salaryman-turned-loli-war-criminal continues to spite God with extreme prejudice and artillery.
 
-- **Skeleton Knight in Another World Season 2**
+- **Skeleton Knight in Another World Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/G8DHV7WJP/skeleton-knight-in-another-world
     - Big skeleton man in armor keeps doing good deeds while everyone screams at his face. Again.
 
-- **Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing Season 2**
+- **Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing Season 2** *(sequel)*
     - https://www.hidive.com/tv/hell-mode
     - The title is longer than most people's attention spans, and the grinding continues.
 
-- **Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Season 2**
+- **Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs
     - Leon returns to a world where women rule and men are accessories — so basically regular society but with mechs.
 
-- **From Old Country Bumpkin to Master Swordsman Season 2**
+- **From Old Country Bumpkin to Master Swordsman Season 2** *(sequel)*
     - https://www.amazon.com/Old-Country-Bumpkin-Master-Swordsman/dp/B0D8Z7S2G4 *(Amazon Prime Video exclusive — not on Crunchyroll; premieres July 8)*
     - An old man who trained everyone else's heroes finally gets his own sequel. About damn time.
 
@@ -86,7 +86,7 @@
     - https://www.crunchyroll.com/series/GT00377907/black-torch
     - A ninja who can talk to animals teams up with a demon cat. Ninja Scroll meets Pet Sematary, but make it shonen.
 
-- **Clevatess: The King of Magical Beasts and the Human Girl Season 2**
+- **Clevatess: The King of Magical Beasts and the Human Girl Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/G8DHV78ZM/clevatess
     - A beast king and a human baby continue their unlikely family dynamic. Parenting is hard, especially when you're a magical lion.
 
@@ -138,7 +138,7 @@
     - https://www.crunchyroll.com/series/GT00378116/smoking-behind-the-supermarket-with-you
     - A salaryman and a convenience store clerk bond over shared smoke breaks. The most relatable romance of the season for anyone who's ever worked retail.
 
-- **You and I Are Polar Opposites Season 2**
+- **You and I Are Polar Opposites Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/GT00365624/you-and-i-are-polar-opposites
     - The gyaru and the quiet guy continue being adorable together. Opposites attract, and also generate enough electricity to power a small city.
 
@@ -154,11 +154,11 @@
     - https://www.crunchyroll.com/series/GT00378087/love-unseen-beneath-the-clear-night-sky
     - A romance where one of them is literally invisible. The ultimate "notice me senpai" scenario.
 
-- **The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3**
+- **The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3** *(sequel)*
     - https://www.crunchyroll.com/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you
     - Rentaro's harem expands further. At this rate he'll hit 100 girlfriends by season 47. Fuck ya.
 
-- **Hanazakari no Kimitachi e (Hana-Kimi) Season 2**
+- **Hanazakari no Kimitachi e (Hana-Kimi) Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/GT00365568/hana-kimi
     - A girl disguises herself as a boy to attend an all-boys school for her idol. Shakespeare walked so Hana-Kimi could run.
 
@@ -174,11 +174,11 @@
 
 ## ACTION (Punching, Slashing, and General Mayhem)
 
-- **Bleach: Thousand-Year Blood War Part 4 — The Calamity**
+- **Bleach: Thousand-Year Blood War Part 4 — The Calamity** *(sequel)*
     - https://www.crunchyroll.com/series/G63VGG2NY/bleach
     - The final arc's final part. Ichigo's been fighting this war longer than some fans have been alive.
 
-- **The Elusive Samurai Season 2**
+- **The Elusive Samurai Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/GQWH0M19X/the-elusive-samurai
     - A young lord who's really good at running away continues running away. The most historically accurate coward you'll ever root for.
 
@@ -234,11 +234,11 @@
 
 ## COMEDY (You Will Laugh, This Is a Threat)
 
-- **Grand Blue Dreaming Season 3**
+- **Grand Blue Dreaming Season 3** *(sequel)*
     - https://www.crunchyroll.com/series/GNVHKN94W/grand-blue-dreaming
     - The diving club that never dives returns. More alcohol poisoning, more naked men, zero actual scuba.
 
-- **Azur Lane: Slow Ahead! Season 2**
+- **Azur Lane: Slow Ahead! Season 2** *(sequel)*
     - https://www.crunchyroll.com/series/GQWH0MXPQ/anime-azurlane-slow-ahead
     - Ship girls doing slice-of-life things. The gacha game spinoff where nobody sinks and everyone just vibes.
 

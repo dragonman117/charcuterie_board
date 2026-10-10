@@ -1,35 +1,56 @@
 ---
 interface Props {
-  categories: { name: string; slug: string; count: number }[];
+  categories: { name: string; slug: string; count: number; newCount: number }[];
 }
 const { categories } = Astro.props;
+
+const showFilterButtons = [
+  { filter: 'all', label: 'All', pressed: true },
+  { filter: 'new', label: 'Only New', pressed: false },
+];
 ---
 
 <div class="catnav-wrap">
   <nav class="catnav-pills" aria-label="Categories">
     <div class="catnav-inner">
       {categories.map((c) => (
-        <a href={`#${c.slug}`} class="catnav-item">
+        <a href={`#${c.slug}`} class="catnav-item" data-count-all={c.count} data-count-new={c.newCount}>
           <span class="catnav-name">{c.name.split('(')[0].trim()}</span>
           <span class="catnav-count">{c.count}</span>
         </a>
       ))}
     </div>
+    <div class="showfilter" role="group" aria-label="Show filter">
+      {showFilterButtons.map((b) => (
+        <button class="showfilter-btn" type="button" data-filter={b.filter} aria-pressed={String(b.pressed)}>
+          {b.label}
+        </button>
+      ))}
+    </div>
   </nav>
 
   <div class="catnav-mobile">
-    <button class="catnav-hamburger" id="catnav-hamburger" type="button"
-      aria-expanded="false" aria-controls="catnav-panel" aria-label="Toggle category menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-      <span class="hamburger-label">Categories</span>
-    </button>
+    <div class="catnav-mobile-row">
+      <button class="catnav-hamburger" id="catnav-hamburger" type="button"
+        aria-expanded="false" aria-controls="catnav-panel" aria-label="Toggle category menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <span class="hamburger-label">Categories</span>
+      </button>
+      <div class="showfilter" role="group" aria-label="Show filter">
+        {showFilterButtons.map((b) => (
+          <button class="showfilter-btn" type="button" data-filter={b.filter} aria-pressed={String(b.pressed)}>
+            {b.label}
+          </button>
+        ))}
+      </div>
+    </div>
     <div class="catnav-panel" id="catnav-panel">
       {categories.map((c) => (
-        <a href={`#${c.slug}`} class="catnav-panel-item" data-close>
+        <a href={`#${c.slug}`} class="catnav-panel-item" data-close data-count-all={c.count} data-count-new={c.newCount}>
           <span class="catnav-name">{c.name.split('(')[0].trim()}</span>
           <span class="catnav-count">{c.count}</span>
         </a>
@@ -61,15 +82,75 @@ const { categories } = Astro.props;
   })();
 </script>
 
+<script is:inline>
+  (function () {
+    var btns = document.querySelectorAll('.showfilter-btn');
+    if (!btns.length) return;
+    function currentFilter() {
+      return document.documentElement.getAttribute('data-show-filter') === 'new' ? 'new' : 'all';
+    }
+    function syncUI() {
+      var f = currentFilter();
+      for (var i = 0; i < btns.length; i++) {
+        var active = btns[i].getAttribute('data-filter') === f;
+        btns[i].setAttribute('aria-pressed', String(active));
+        btns[i].classList.toggle('is-active', active);
+      }
+      var items = document.querySelectorAll('.catnav-item[data-count-all], .catnav-panel-item[data-count-all]');
+      for (var j = 0; j < items.length; j++) {
+        var item = items[j];
+        var count = f === 'new' ? item.getAttribute('data-count-new') : item.getAttribute('data-count-all');
+        var label = item.querySelector('.catnav-count');
+        if (label) label.textContent = count;
+        var empty = f === 'new' && count === '0';
+        var slug = (item.getAttribute('href') || '').replace(/^#/, '');
+        var section = slug ? document.getElementById(slug) : null;
+        if (empty) {
+          item.setAttribute('hidden', '');
+          if (section) section.setAttribute('hidden', '');
+        } else {
+          item.removeAttribute('hidden');
+          if (section) section.removeAttribute('hidden', '');
+        }
+      }
+    }
+    for (var k = 0; k < btns.length; k++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          var f = btn.getAttribute('data-filter');
+          if (f === currentFilter()) return;
+          if (f === 'new') {
+            document.documentElement.setAttribute('data-show-filter', 'new');
+          } else {
+            document.documentElement.removeAttribute('data-show-filter');
+          }
+          try { localStorage.setItem('showFilter', f); } catch (e) {}
+          syncUI();
+        });
+      })(btns[k]);
+    }
+    syncUI();
+  })();
+</script>
+
+<style is:global>
+  [data-show-filter='new'] .card[data-continuing],
+  [data-show-filter='new'] .card[data-sequel] {
+    display: none;
+  }
+</style>
+
 <style>
 .catnav-wrap {
   position: sticky; top: 0; z-index: 20;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
+.catnav-pills { display: flex; align-items: center; }
 .catnav-inner {
   display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.5rem 1rem;
   scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto; min-width: 0;
 }
 .catnav-item {
   display: inline-flex; align-items: center; gap: 0.35rem;
@@ -79,17 +160,41 @@ const { categories } = Astro.props;
   transition: background 0.15s, color 0.15s;
 }
 .catnav-item:hover { background: var(--surface-alt); color: var(--text); }
+.catnav-item[hidden] { display: none; }
 .catnav-count {
   font-size: 0.7rem; background: var(--surface-alt); padding: 0 0.4rem;
   border-radius: 999px; color: var(--muted);
 }
 
+.showfilter {
+  display: flex; align-items: center; gap: 0.25rem;
+  padding: 0.25rem; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface);
+}
+.showfilter-btn {
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600;
+  color: var(--muted); background: transparent;
+  border: none; border-radius: 999px;
+  padding: 0 0.7rem; min-height: 44px;
+  cursor: pointer; white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.showfilter-btn:hover { background: var(--surface-alt); color: var(--text); }
+.showfilter-btn.is-active { background: var(--accent); color: var(--bg); }
+.showfilter-btn:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text); }
+.catnav-pills .showfilter { flex-shrink: 0; margin-right: 1rem; }
+
 .catnav-mobile { display: none; }
+.catnav-mobile-row {
+  display: flex; align-items: stretch;
+  border-top: 1px solid var(--border);
+}
+.catnav-mobile-row .showfilter { margin: 0 0.5rem; align-self: center; }
 .catnav-hamburger {
   display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-  width: 100%; min-height: 44px; padding: 0.6rem 1rem; margin: 0;
+  flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0.6rem 1rem; margin: 0;
   background: transparent; color: var(--text);
-  border: none; border-top: 1px solid var(--border);
+  border: none;
   font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
   cursor: pointer;
 }
@@ -109,6 +214,7 @@ const { categories } = Astro.props;
   text-decoration: none; min-height: 44px;
 }
 .catnav-panel-item:hover { background: var(--surface-alt); }
+.catnav-panel-item[hidden] { display: none; }
 .catnav-panel-item .catnav-count {
   font-size: 0.7rem; background: var(--surface-alt); padding: 0 0.4rem;
   border-radius: 999px; color: var(--muted);

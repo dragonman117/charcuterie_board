@@ -9,6 +9,9 @@ interface Props {
 
 const { show, categorySlug, categoryIndex } = Astro.props;
 
+const isContinuing = show.markers.includes('continuing');
+const isSequel = show.markers.includes('sequel');
+
 const palette = [
   '#0050b3', '#4d1a6e', '#9d0049', '#b35900',
   '#0e5c3b', '#0d5a6e', '#7a1f4d', '#5c2e8c',
@@ -33,7 +36,12 @@ const coverSrc = show.coverPath
   : null;
 ---
 
-<article class="card" data-source={show.source}>
+<article
+  class="card"
+  data-source={show.source}
+  data-continuing={isContinuing ? 'true' : undefined}
+  data-sequel={isSequel ? 'true' : undefined}
+>
   <div class="cover" style={coverSrc ? undefined : `background:${placeholderColor}`}>
     {coverSrc
       ? <img src={coverSrc} alt={show.title} loading="lazy" width="240" height="340" />
@@ -44,6 +52,7 @@ const coverSrc = show.coverPath
     <h3 class="title">
       {show.title}
       {show.markers.includes('continuing') && <span class="badge badge-continuing">Continuing</span>}
+      {isSequel && <span class="badge badge-sequel">Sequel</span>}
       {show.markers.includes('movie') && <span class="badge badge-movie">Movie</span>}
     </h3>
     {show.blurb && <p class="blurb">{show.blurb}</p>}
@@ -99,5 +108,6 @@ const coverSrc = show.coverPath
   border: 1px solid var(--border);
 }
 .badge-continuing { background: var(--surface-alt); color: var(--muted); }
+.badge-sequel { background: var(--surface-alt); color: var(--muted); }
 .badge-movie { background: var(--surface-alt); color: var(--muted); }
 </style>

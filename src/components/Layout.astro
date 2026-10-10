@@ -35,6 +35,9 @@ const seasonNav = [
           } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
             document.documentElement.dataset.theme = 'light';
           }
+          if (localStorage.getItem('showFilter') === 'new') {
+            document.documentElement.setAttribute('data-show-filter', 'new');
+          }
         } catch (e) {}
       })();
     </script>
